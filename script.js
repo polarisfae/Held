@@ -292,3 +292,33 @@ smallThingBtn.addEventListener("click", () => {
   lastSmallThing = index;
   smallThingText.textContent = SMALL_THINGS[index];
 });
+
+// ---- Clear everything ----
+const clearAllBtn = document.getElementById("clearAllBtn");
+let clearAllTimeout;
+
+clearAllBtn.addEventListener("click", () => {
+  if (clearAllBtn.dataset.confirming !== "true") {
+    clearAllBtn.dataset.confirming = "true";
+    clearAllBtn.textContent = "Click again to permanently clear your journal and candles";
+    clearAllTimeout = setTimeout(() => {
+      clearAllBtn.dataset.confirming = "false";
+      clearAllBtn.textContent = "Clear everything I've saved on this device";
+    }, 4000);
+    return;
+  }
+  clearTimeout(clearAllTimeout);
+  try {
+    localStorage.removeItem(JOURNAL_KEY);
+    localStorage.removeItem(CANDLE_KEY);
+  } catch {
+    // if storage is blocked, there's nothing saved to clear
+  }
+  renderJournal();
+  renderCandles();
+  clearAllBtn.dataset.confirming = "false";
+  clearAllBtn.textContent = "Cleared.";
+  setTimeout(() => {
+    clearAllBtn.textContent = "Clear everything I've saved on this device";
+  }, 3000);
+});
