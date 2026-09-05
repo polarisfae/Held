@@ -349,6 +349,11 @@ textarea:focus, input[type="text"]:focus {
   color: var(--flame);
 }
 
+.journal-entry .delete-btn[data-confirming="true"] {
+  color: var(--flame);
+  font-weight: bold;
+}
+
 .candle-wall {
   display: flex;
   flex-wrap: wrap;

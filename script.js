@@ -48,7 +48,21 @@ function renderJournal() {
       const deleteBtn = document.createElement("button");
       deleteBtn.className = "delete-btn";
       deleteBtn.textContent = "remove";
+      deleteBtn.setAttribute("aria-label", `Remove entry from ${dateEl.textContent}`);
+      let confirmTimeout;
       deleteBtn.addEventListener("click", () => {
+        if (deleteBtn.dataset.confirming !== "true") {
+          deleteBtn.dataset.confirming = "true";
+          deleteBtn.textContent = "sure?";
+          deleteBtn.setAttribute("aria-label", `Confirm removing entry from ${dateEl.textContent}`);
+          confirmTimeout = setTimeout(() => {
+            deleteBtn.dataset.confirming = "false";
+            deleteBtn.textContent = "remove";
+            deleteBtn.setAttribute("aria-label", `Remove entry from ${dateEl.textContent}`);
+          }, 3000);
+          return;
+        }
+        clearTimeout(confirmTimeout);
         const remaining = loadJournal().filter((e) => e.id !== entry.id);
         saveJournal(remaining);
         renderJournal();
