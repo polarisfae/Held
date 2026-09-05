@@ -3,28 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sad — mood-based website recommender</title>
+<title>Still Here</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="app">
-    <header>
-      <h1>How are you feeling?</h1>
-      <p class="subtitle">Pick a mood and get a website worth visiting right now.</p>
-    </header>
+  <header class="hero">
+    <h1>Still Here</h1>
+    <p class="tagline">For the days that feel too heavy to name.<br>You don't have to be okay to be here.</p>
+    <nav class="nav">
+      <a href="#say-it">Say it</a>
+      <a href="#light-one">Light one</a>
+      <a href="#words">Words for it</a>
+      <a href="#small-thing">One small thing</a>
+    </nav>
+  </header>
 
-    <div class="moods" id="moods"></div>
+  <main>
+    <section id="say-it" class="section">
+      <h2>Say it</h2>
+      <p class="section-intro">What's sitting on you right now? No one will read this but you — it stays only on this device.</p>
+      <textarea id="journalInput" rows="4" placeholder="Start typing..."></textarea>
+      <button id="saveEntryBtn" class="btn">Save</button>
+      <ul id="journalList" class="journal-list"></ul>
+    </section>
 
-    <section class="result" id="result" hidden>
-      <p class="result-mood" id="resultMood"></p>
-      <h2 id="siteName"></h2>
-      <p id="siteDescription"></p>
-      <div class="actions">
-        <a id="visitLink" href="#" target="_blank" rel="noopener noreferrer" class="btn primary">Visit site</a>
-        <button id="newOneBtn" class="btn secondary">Give me a new one</button>
-      </div>
+    <section id="light-one" class="section">
+      <h2>Light one</h2>
+      <p class="section-intro">Light a small flame for something you're holding onto — a hope, a person, a version of yourself you're trying to find again.</p>
+      <form id="candleForm" class="candle-form">
+        <input id="candleInput" type="text" maxlength="140" placeholder="What are you lighting this for?">
+        <button type="submit" class="btn">Light it</button>
+      </form>
+      <div id="candleWall" class="candle-wall"></div>
+    </section>
+
+    <section id="words" class="section">
+      <h2>Words for it</h2>
+      <p class="section-intro">Sometimes a feeling is easier to sit with once it has a name.</p>
+      <div id="wordButtons" class="word-buttons"></div>
+      <p id="wordText" class="word-text"></p>
+    </section>
+
+    <section id="small-thing" class="section">
+      <h2>One small thing</h2>
+      <p class="section-intro">Not a to-do list. Just one small, doable thing, if you want it.</p>
+      <button id="smallThingBtn" class="btn">Give me something small</button>
+      <p id="smallThingText" class="word-text"></p>
     </section>
   </main>
+
+  <footer class="footer">
+    <p>If it's more than a heavy day and you want to talk to someone: text or call <strong>988</strong> (US Suicide &amp; Crisis Lifeline — free, anonymous, 24/7), or chat at <a href="https://www.7cups.com" target="_blank" rel="noopener noreferrer">7cups.com</a>.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

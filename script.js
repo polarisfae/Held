@@ -1,96 +1,166 @@
-const SITES = {
-  sad: [
-    { name: "Window Swap", url: "https://window-swap.com", description: "Look out of a stranger's window somewhere else in the world. Weirdly calming." },
-    { name: "r/aww", url: "https://www.reddit.com/r/aww/", description: "A steady stream of cute animals. Simple, reliable comfort." },
-    { name: "The Dodo", url: "https://www.thedodo.com", description: "Heartwarming animal rescue stories, if you need a good cry that turns into a smile." },
-    { name: "Good News Network", url: "https://www.goodnewsnetwork.org", description: "Only positive news. Sometimes the world needs a reminder it's not all bad." },
-    { name: "Calm", url: "https://www.calm.com", description: "Guided breathing and meditation for when things feel heavy." },
-    { name: "7 Cups", url: "https://www.7cups.com", description: "Free, anonymous emotional support from trained listeners, any time." },
-    { name: "Unsplash", url: "https://unsplash.com", description: "Endless beautiful, free photography. Good for a quiet scroll." },
-    { name: "Weavesilk", url: "https://weavesilk.com", description: "Draw glowing, symmetrical silk patterns. Oddly soothing to fidget with." }
-  ],
-  happy: [
-    { name: "This Is Colossal", url: "https://www.thisiscolossal.com", description: "Art, design, and visual culture that's a joy to look at." },
-    { name: "r/MadeMeSmile", url: "https://www.reddit.com/r/MadeMeSmile/", description: "Exactly what it says on the tin." },
-    { name: "Radio Garden", url: "https://radio.garden", description: "Spin a globe and listen to live radio from anywhere on Earth." }
-  ],
-  bored: [
-    { name: "Neal.fun", url: "https://neal.fun", description: "A collection of strange, delightful little interactive toys and games." },
-    { name: "The Useless Web", url: "https://theuselessweb.com", description: "Click a button, land on a random weird corner of the internet." },
-    { name: "Wikipedia Random Article", url: "https://en.wikipedia.org/wiki/Special:Random", description: "Fall down a rabbit hole you didn't plan on." }
-  ],
-  anxious: [
-    { name: "Headspace", url: "https://www.headspace.com", description: "Short guided meditations to help settle a racing mind." },
-    { name: "MyNoise", url: "https://mynoise.net", description: "Customizable ambient soundscapes for focus or calm." },
-    { name: "Do Nothing for 2 Minutes", url: "https://www.donothingfor2minutes.com", description: "Forces you to sit still and just listen to waves. Harder than it sounds." }
-  ],
-  angry: [
-    { name: "Boil the Frog", url: "https://boilthefrog.gjcam.uk", description: "A geography guessing game that quietly pulls your focus elsewhere." },
-    { name: "Punch a wall (harmlessly)", url: "https://www.gamesforwork.com", description: "A pile of quick browser games to burn off some energy." },
-    { name: "Just the recipe", url: "https://justtherecipe.com", description: "Strip the rambling life story out of any recipe page. Satisfying in its own petty way." }
-  ],
-  tired: [
-    { name: "Lofi Girl", url: "https://www.youtube.com/@LofiGirl", description: "Endless lo-fi beats for doing absolutely nothing productive." },
-    { name: "Marinara Timer", url: "https://www.marinaratimer.com", description: "A no-nonsense timer if you're trying to talk yourself into a short break." }
-  ]
-};
+// ---- Say It: private journal (localStorage only) ----
+const JOURNAL_KEY = "stillhere.journal";
+const journalInput = document.getElementById("journalInput");
+const saveEntryBtn = document.getElementById("saveEntryBtn");
+const journalList = document.getElementById("journalList");
 
-const MOOD_LABELS = {
-  sad: "Sad",
-  happy: "Happy",
-  bored: "Bored",
-  anxious: "Anxious",
-  angry: "Angry",
-  tired: "Tired"
-};
+function loadJournal() {
+  try {
+    return JSON.parse(localStorage.getItem(JOURNAL_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
 
-const shownByMood = {};
-let currentMood = null;
+function saveJournal(entries) {
+  localStorage.setItem(JOURNAL_KEY, JSON.stringify(entries));
+}
 
-const moodsEl = document.getElementById("moods");
-const resultEl = document.getElementById("result");
-const resultMoodEl = document.getElementById("resultMood");
-const siteNameEl = document.getElementById("siteName");
-const siteDescriptionEl = document.getElementById("siteDescription");
-const visitLinkEl = document.getElementById("visitLink");
-const newOneBtn = document.getElementById("newOneBtn");
+function renderJournal() {
+  const entries = loadJournal();
+  journalList.innerHTML = "";
+  entries
+    .slice()
+    .reverse()
+    .forEach((entry) => {
+      const li = document.createElement("li");
+      li.className = "journal-entry";
 
-Object.keys(MOOD_LABELS).forEach((mood) => {
-  const btn = document.createElement("button");
-  btn.className = "mood-btn";
-  btn.textContent = MOOD_LABELS[mood];
-  btn.addEventListener("click", () => selectMood(mood, btn));
-  moodsEl.appendChild(btn);
+      const dateEl = document.createElement("span");
+      dateEl.className = "entry-date";
+      dateEl.textContent = new Date(entry.date).toLocaleString();
+
+      const textEl = document.createElement("span");
+      textEl.textContent = entry.text;
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete-btn";
+      deleteBtn.textContent = "remove";
+      deleteBtn.addEventListener("click", () => {
+        const remaining = loadJournal().filter((e) => e.id !== entry.id);
+        saveJournal(remaining);
+        renderJournal();
+      });
+
+      li.appendChild(dateEl);
+      li.appendChild(textEl);
+      li.appendChild(deleteBtn);
+      journalList.appendChild(li);
+    });
+}
+
+saveEntryBtn.addEventListener("click", () => {
+  const text = journalInput.value.trim();
+  if (!text) return;
+  const entries = loadJournal();
+  entries.push({ id: Date.now(), text, date: new Date().toISOString() });
+  saveJournal(entries);
+  journalInput.value = "";
+  renderJournal();
 });
 
-function selectMood(mood, btn) {
-  currentMood = mood;
-  document.querySelectorAll(".mood-btn").forEach((b) => b.classList.remove("active"));
-  btn.classList.add("active");
-  showRecommendation(mood);
-}
+renderJournal();
 
-function showRecommendation(mood) {
-  const pool = SITES[mood];
-  if (!shownByMood[mood] || shownByMood[mood].length >= pool.length) {
-    shownByMood[mood] = [];
+// ---- Light One: candle wall (localStorage + starter lights) ----
+const CANDLE_KEY = "stillhere.candles";
+const STARTER_CANDLES = [
+  "for the version of you who kept going anyway",
+  "for someone learning how to rest",
+  "for a morning that doesn't feel this heavy",
+  "for whoever needs to hear it isn't forever"
+];
+
+const candleForm = document.getElementById("candleForm");
+const candleInput = document.getElementById("candleInput");
+const candleWall = document.getElementById("candleWall");
+
+function loadCandles() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(CANDLE_KEY));
+    if (stored && stored.length) return stored;
+  } catch {
+    // ignore, fall through to starter set
   }
-
-  const remaining = pool
-    .map((_, i) => i)
-    .filter((i) => !shownByMood[mood].includes(i));
-
-  const pickIndex = remaining[Math.floor(Math.random() * remaining.length)];
-  shownByMood[mood].push(pickIndex);
-
-  const site = pool[pickIndex];
-  resultMoodEl.textContent = `Feeling ${MOOD_LABELS[mood].toLowerCase()}`;
-  siteNameEl.textContent = site.name;
-  siteDescriptionEl.textContent = site.description;
-  visitLinkEl.href = site.url;
-  resultEl.hidden = false;
+  return STARTER_CANDLES.slice();
 }
 
-newOneBtn.addEventListener("click", () => {
-  if (currentMood) showRecommendation(currentMood);
+function saveCandles(candles) {
+  localStorage.setItem(CANDLE_KEY, JSON.stringify(candles));
+}
+
+function renderCandles() {
+  const candles = loadCandles();
+  candleWall.innerHTML = "";
+  candles.forEach((note) => {
+    const div = document.createElement("div");
+    div.className = "candle";
+    div.innerHTML = `<span class="flame">\u{1F56F}️</span><span class="candle-note"></span>`;
+    div.querySelector(".candle-note").textContent = note;
+    div.addEventListener("click", () => div.classList.toggle("open"));
+    candleWall.appendChild(div);
+  });
+}
+
+candleForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const note = candleInput.value.trim();
+  if (!note) return;
+  const candles = loadCandles();
+  candles.push(note);
+  saveCandles(candles);
+  candleInput.value = "";
+  renderCandles();
+});
+
+renderCandles();
+
+// ---- Words for it ----
+const FEELINGS = {
+  Loneliness: "The kind of quiet that isn't peaceful. Being around people and still feeling unreachable. It doesn't mean something is wrong with you — it usually means you're due for a real conversation, not more small talk. That's a fixable kind of missing.",
+  Grief: "Not just for people who've died. Grief is what's left when anything you loved ends — a version of your life, a plan, a person you used to be. It doesn't move in a straight line, and it doesn't mean you're stuck. It means it mattered.",
+  Drifting: "Going through the days without feeling anchored to any of them. Like you're watching your own life from slightly outside it. This one tends to lift the moment something — anything — pulls your attention all the way in again.",
+  "Feeling behind": "The sense that everyone else got a head start. It's a comparison, not a fact — and comparisons are the worst measuring tool for a life that isn't a race. Most people you're measuring yourself against feel behind too.",
+  Numbness: "When sadness gets so loud for so long that it goes quiet instead. It can look like calm from the outside. It usually means you've been carrying something without a place to put it down — not that you've run out of feelings for good.",
+  Longing: "Wanting something you can't quite name, or can name but can't reach right now. It's proof you still want things. That's not nothing — that's the part of you that hasn't given up."
+};
+
+const wordButtonsEl = document.getElementById("wordButtons");
+const wordTextEl = document.getElementById("wordText");
+
+Object.keys(FEELINGS).forEach((feeling) => {
+  const btn = document.createElement("button");
+  btn.className = "word-btn";
+  btn.textContent = feeling;
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".word-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    wordTextEl.textContent = FEELINGS[feeling];
+  });
+  wordButtonsEl.appendChild(btn);
+});
+
+// ---- One Small Thing ----
+const SMALL_THINGS = [
+  "Drink a full glass of water. Just that.",
+  "Open a window, even for a minute.",
+  "Write one true sentence about how you feel, then close the notebook.",
+  "Text one person a single word: \"hi\".",
+  "Step outside and name three things you can see.",
+  "Put on the song you'd play if this feeling were a movie scene.",
+  "Wash your face with cold water.",
+  "Sit down for two minutes and do nothing else.",
+  "Say out loud, to no one, one thing you're tired of carrying."
+];
+
+const smallThingBtn = document.getElementById("smallThingBtn");
+const smallThingText = document.getElementById("smallThingText");
+let lastSmallThing = -1;
+
+smallThingBtn.addEventListener("click", () => {
+  let index;
+  do {
+    index = Math.floor(Math.random() * SMALL_THINGS.length);
+  } while (index === lastSmallThing && SMALL_THINGS.length > 1);
+  lastSmallThing = index;
+  smallThingText.textContent = SMALL_THINGS[index];
 });
