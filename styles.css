@@ -294,6 +294,15 @@ textarea:focus, input[type="text"]:focus {
   opacity: 1;
 }
 
+.save-confirmation.warning {
+  color: var(--flame);
+  max-width: 32ch;
+}
+
+.char-count.warning {
+  color: var(--flame);
+}
+
 .candle-form {
   display: flex;
   gap: 0.6rem;

@@ -7,13 +7,14 @@ const journalList = document.getElementById("journalList");
 const saveConfirmation = document.getElementById("saveConfirmation");
 let saveConfirmationTimeout;
 
-function showSaveConfirmation() {
+function showSaveConfirmation(message = "Saved.", isWarning = false) {
   clearTimeout(saveConfirmationTimeout);
-  saveConfirmation.textContent = "Saved.";
+  saveConfirmation.textContent = message;
+  saveConfirmation.classList.toggle("warning", isWarning);
   saveConfirmation.classList.add("visible");
   saveConfirmationTimeout = setTimeout(() => {
     saveConfirmation.classList.remove("visible");
-  }, 2200);
+  }, isWarning ? 5000 : 2200);
 }
 
 function loadJournal() {
@@ -25,7 +26,12 @@ function loadJournal() {
 }
 
 function saveJournal(entries) {
-  localStorage.setItem(JOURNAL_KEY, JSON.stringify(entries));
+  try {
+    localStorage.setItem(JOURNAL_KEY, JSON.stringify(entries));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function renderJournal() {
@@ -81,7 +87,11 @@ saveEntryBtn.addEventListener("click", () => {
   if (!text) return;
   const entries = loadJournal();
   entries.push({ id: Date.now(), text, date: new Date().toISOString() });
-  saveJournal(entries);
+  const success = saveJournal(entries);
+  if (!success) {
+    showSaveConfirmation("Couldn't save — this browser may be blocking storage for this site. Your words are still here, but copy them somewhere safe before leaving the page.", true);
+    return;
+  }
   journalInput.value = "";
   renderJournal();
   showSaveConfirmation();
@@ -125,6 +135,7 @@ const candleCharCount = document.getElementById("candleCharCount");
 function updateCandleCharCount() {
   const remaining = candleInput.maxLength - candleInput.value.length;
   candleCharCount.textContent = `${remaining} characters left`;
+  candleCharCount.classList.remove("warning");
 }
 
 candleInput.addEventListener("input", updateCandleCharCount);
@@ -141,7 +152,12 @@ function loadCandles() {
 }
 
 function saveCandles(candles) {
-  localStorage.setItem(CANDLE_KEY, JSON.stringify(candles));
+  try {
+    localStorage.setItem(CANDLE_KEY, JSON.stringify(candles));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 let candleIdCounter = 0;
@@ -203,8 +219,14 @@ candleForm.addEventListener("submit", (event) => {
   if (!note) return;
   const candles = loadCandles();
   candles.push(note);
-  saveCandles(candles);
+  const success = saveCandles(candles);
+  if (!success) {
+    candleCharCount.textContent = "Couldn't light it — this browser may be blocking storage for this site.";
+    candleCharCount.classList.add("warning");
+    return;
+  }
   candleInput.value = "";
+  updateCandleCharCount();
   renderCandles();
 });
 
