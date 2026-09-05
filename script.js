@@ -72,6 +72,7 @@ function renderJournal() {
         const remaining = loadJournal().filter((e) => e.id !== entry.id);
         saveJournal(remaining);
         renderJournal();
+        journalInput.focus();
       });
 
       li.appendChild(dateEl);
@@ -141,14 +142,29 @@ function updateCandleCharCount() {
 candleInput.addEventListener("input", updateCandleCharCount);
 updateCandleCharCount();
 
+function makeCandleId() {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
 function loadCandles() {
+  let candles = null;
   try {
     const stored = JSON.parse(localStorage.getItem(CANDLE_KEY));
-    if (stored && stored.length) return stored;
+    if (stored && stored.length) candles = stored;
   } catch {
     // ignore, fall through to starter set
   }
-  return STARTER_CANDLES.slice();
+  if (!candles) {
+    candles = STARTER_CANDLES.map((text) => ({ id: makeCandleId(), text }));
+    saveCandles(candles);
+    return candles;
+  }
+  // migrate older localStorage data (a plain array of strings) to {id, text}
+  if (typeof candles[0] === "string") {
+    candles = candles.map((text) => ({ id: makeCandleId(), text }));
+    saveCandles(candles);
+  }
+  return candles;
 }
 
 function saveCandles(candles) {
@@ -160,32 +176,28 @@ function saveCandles(candles) {
   }
 }
 
-let candleIdCounter = 0;
+const openCandleIds = new Set();
 
 function renderCandles() {
   const candles = loadCandles();
   candleWall.innerHTML = "";
-  candles.forEach((note, index) => {
-    const noteId = `candle-note-${candleIdCounter++}`;
+  candles.forEach(({ id, text: note }) => {
+    const noteId = `candle-note-${id}`;
+    const isOpen = openCandleIds.has(id);
 
     const wrapper = document.createElement("div");
-    wrapper.className = "candle";
+    wrapper.className = isOpen ? "candle open" : "candle";
 
     const toggleBtn = document.createElement("button");
     toggleBtn.type = "button";
     toggleBtn.className = "candle-toggle";
-    toggleBtn.setAttribute("aria-expanded", "false");
+    toggleBtn.setAttribute("aria-expanded", String(isOpen));
     toggleBtn.setAttribute("aria-controls", noteId);
     toggleBtn.innerHTML = `<svg class="flame" viewBox="0 0 40 60" aria-hidden="true" focusable="false">
       <rect x="14" y="28" width="12" height="26" rx="3" fill="rgba(238,242,248,0.1)" stroke="rgba(238,242,248,0.45)" stroke-width="1.5"/>
       <line x1="20" y1="28" x2="20" y2="20" stroke="rgba(238,242,248,0.45)" stroke-width="1.5"/>
       <path d="M20,4 C24,10 25,14 20,20 C15,14 16,10 20,4 Z" fill="currentColor"/>
     </svg>`;
-    toggleBtn.addEventListener("click", () => {
-      const isOpen = wrapper.classList.toggle("open");
-      toggleBtn.setAttribute("aria-expanded", String(isOpen));
-    });
-
     const noteEl = document.createElement("div");
     noteEl.className = "candle-note";
     noteEl.id = noteId;
@@ -198,11 +210,25 @@ function renderCandles() {
     letGoBtn.type = "button";
     letGoBtn.className = "let-go-btn";
     letGoBtn.textContent = "let it go";
+    letGoBtn.tabIndex = isOpen ? 0 : -1;
+
+    toggleBtn.addEventListener("click", () => {
+      const nowOpen = wrapper.classList.toggle("open");
+      toggleBtn.setAttribute("aria-expanded", String(nowOpen));
+      letGoBtn.tabIndex = nowOpen ? 0 : -1;
+      if (nowOpen) {
+        openCandleIds.add(id);
+      } else {
+        openCandleIds.delete(id);
+      }
+    });
+
     letGoBtn.addEventListener("click", () => {
-      const current = loadCandles();
-      current.splice(index, 1);
+      const current = loadCandles().filter((c) => c.id !== id);
       saveCandles(current);
+      openCandleIds.delete(id);
       renderCandles();
+      candleInput.focus();
     });
 
     noteEl.appendChild(noteText);
@@ -218,7 +244,7 @@ candleForm.addEventListener("submit", (event) => {
   const note = candleInput.value.trim();
   if (!note) return;
   const candles = loadCandles();
-  candles.push(note);
+  candles.push({ id: makeCandleId(), text: note });
   const success = saveCandles(candles);
   if (!success) {
     candleCharCount.textContent = "Couldn't light it — this browser may be blocking storage for this site.";
