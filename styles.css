@@ -13,6 +13,24 @@
 
 * { box-sizing: border-box; }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .flame, .hero, .section {
+    animation: none !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--flame);
+  outline-offset: 3px;
+}
+
 body {
   margin: 0;
   color: var(--fg);
@@ -297,6 +315,11 @@ textarea:focus, input[type="text"]:focus {
   text-align: center;
   cursor: pointer;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 4px;
 }
 
 .flame {
@@ -313,15 +336,21 @@ textarea:focus, input[type="text"]:focus {
 .candle:nth-child(3n+1) .flame { animation-delay: 0.8s; }
 
 .candle-note {
-  display: none;
+  display: block;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
   font-size: 0.7rem;
   color: var(--muted);
-  margin-top: 0.5rem;
   line-height: 1.35;
+  transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.35s ease;
+  margin-top: 0;
 }
 
 .candle.open .candle-note {
-  display: block;
+  max-height: 100px;
+  opacity: 1;
+  margin-top: 0.5rem;
 }
 
 .word-buttons {
