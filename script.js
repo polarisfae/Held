@@ -108,7 +108,7 @@ exportJournalBtn.addEventListener("click", () => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "blue-hour-journal.txt";
+  link.download = "held-journal.txt";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
