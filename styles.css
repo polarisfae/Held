@@ -342,6 +342,8 @@ textarea:focus, input[type="text"]:focus {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 0.9rem;
   position: relative;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .journal-entry .entry-date {
@@ -424,6 +426,8 @@ textarea:focus, input[type="text"]:focus {
 
 .candle-note-text {
   margin: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .let-go-btn {
