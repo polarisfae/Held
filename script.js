@@ -301,7 +301,7 @@ const SMALL_THINGS = [
   "Stretch your arms above your head and hold it for ten seconds.",
   "Make your bed, even if it's the only thing you do today.",
   "Look at one old photo that makes you feel something good.",
-  "Write down tomorrow's date and one small thing you could do then.",
+  "Pick one small thing you could try tomorrow — nothing has to happen today.",
   "Eat something that isn't out of habit — actually taste it.",
   "Unclench your jaw. Drop your shoulders. Just once."
 ];
