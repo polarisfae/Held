@@ -507,8 +507,8 @@ textarea:focus, input[type="text"]:focus {
 
 .crisis-quick-link {
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  right: max(1rem, env(safe-area-inset-right, 0px));
   z-index: 50;
   background: var(--bg-deep);
   color: var(--flame);
