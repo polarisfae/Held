@@ -4,6 +4,17 @@ const journalInput = document.getElementById("journalInput");
 const saveEntryBtn = document.getElementById("saveEntryBtn");
 const exportJournalBtn = document.getElementById("exportJournalBtn");
 const journalList = document.getElementById("journalList");
+const saveConfirmation = document.getElementById("saveConfirmation");
+let saveConfirmationTimeout;
+
+function showSaveConfirmation() {
+  clearTimeout(saveConfirmationTimeout);
+  saveConfirmation.textContent = "Saved.";
+  saveConfirmation.classList.add("visible");
+  saveConfirmationTimeout = setTimeout(() => {
+    saveConfirmation.classList.remove("visible");
+  }, 2200);
+}
 
 function loadJournal() {
   try {
@@ -59,6 +70,7 @@ saveEntryBtn.addEventListener("click", () => {
   saveJournal(entries);
   journalInput.value = "";
   renderJournal();
+  showSaveConfirmation();
 });
 
 exportJournalBtn.addEventListener("click", () => {

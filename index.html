@@ -44,6 +44,7 @@
       <div class="journal-actions">
         <button id="saveEntryBtn" class="btn">Save</button>
         <button id="exportJournalBtn" class="btn btn-quiet" hidden>Download my words</button>
+        <span id="saveConfirmation" class="save-confirmation" aria-live="polite"></span>
       </div>
       <ul id="journalList" class="journal-list"></ul>
     </section>
@@ -64,14 +65,14 @@
       <h2>Words for it</h2>
       <p class="section-intro">Sometimes a feeling is easier to sit with once it has a name.</p>
       <div id="wordButtons" class="word-buttons"></div>
-      <p id="wordText" class="word-text"></p>
+      <p id="wordText" class="word-text" aria-live="polite"></p>
     </section>
 
     <section id="small-thing" class="section">
       <h2>One small thing</h2>
       <p class="section-intro">Not a to-do list. Just one small, doable thing, if you want it.</p>
       <button id="smallThingBtn" class="btn">Give me something small</button>
-      <p id="smallThingText" class="word-text"></p>
+      <p id="smallThingText" class="word-text" aria-live="polite"></p>
     </section>
   </main>
 
