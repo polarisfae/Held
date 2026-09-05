@@ -1,3 +1,24 @@
+// ---- Shared: click-to-arm, click-again-to-confirm button behavior ----
+function makeConfirmHandler(button, { armedText, normalText, timeoutMs = 3000, onArm, onRevert, onConfirm }) {
+  let timeout;
+  return () => {
+    if (button.dataset.confirming !== "true") {
+      button.dataset.confirming = "true";
+      button.textContent = armedText;
+      if (onArm) onArm();
+      timeout = setTimeout(() => {
+        button.dataset.confirming = "false";
+        button.textContent = normalText;
+        if (onRevert) onRevert();
+      }, timeoutMs);
+      return;
+    }
+    clearTimeout(timeout);
+    button.dataset.confirming = "false";
+    onConfirm();
+  };
+}
+
 // ---- Say It: private journal (localStorage only) ----
 const JOURNAL_KEY = "stillhere.journal";
 const journalInput = document.getElementById("journalInput");
@@ -55,25 +76,19 @@ function renderJournal() {
       deleteBtn.className = "delete-btn";
       deleteBtn.textContent = "remove";
       deleteBtn.setAttribute("aria-label", `Remove entry from ${dateEl.textContent}`);
-      let confirmTimeout;
-      deleteBtn.addEventListener("click", () => {
-        if (deleteBtn.dataset.confirming !== "true") {
-          deleteBtn.dataset.confirming = "true";
-          deleteBtn.textContent = "sure?";
-          deleteBtn.setAttribute("aria-label", `Confirm removing entry from ${dateEl.textContent}`);
-          confirmTimeout = setTimeout(() => {
-            deleteBtn.dataset.confirming = "false";
-            deleteBtn.textContent = "remove";
-            deleteBtn.setAttribute("aria-label", `Remove entry from ${dateEl.textContent}`);
-          }, 3000);
-          return;
-        }
-        clearTimeout(confirmTimeout);
-        const remaining = loadJournal().filter((e) => e.id !== entry.id);
-        saveJournal(remaining);
-        renderJournal();
-        journalInput.focus();
-      });
+      deleteBtn.addEventListener("click", makeConfirmHandler(deleteBtn, {
+        armedText: "sure?",
+        normalText: "remove",
+        timeoutMs: 3000,
+        onArm: () => deleteBtn.setAttribute("aria-label", `Confirm removing entry from ${dateEl.textContent}`),
+        onRevert: () => deleteBtn.setAttribute("aria-label", `Remove entry from ${dateEl.textContent}`),
+        onConfirm: () => {
+          const remaining = loadJournal().filter((e) => e.id !== entry.id);
+          saveJournal(remaining);
+          renderJournal();
+          journalInput.focus();
+        },
+      }));
 
       li.appendChild(dateEl);
       li.appendChild(textEl);
@@ -321,30 +336,24 @@ smallThingBtn.addEventListener("click", () => {
 
 // ---- Clear everything ----
 const clearAllBtn = document.getElementById("clearAllBtn");
-let clearAllTimeout;
+const CLEAR_ALL_LABEL = "Clear everything I've saved on this device";
 
-clearAllBtn.addEventListener("click", () => {
-  if (clearAllBtn.dataset.confirming !== "true") {
-    clearAllBtn.dataset.confirming = "true";
-    clearAllBtn.textContent = "Click again to permanently clear your journal and candles";
-    clearAllTimeout = setTimeout(() => {
-      clearAllBtn.dataset.confirming = "false";
-      clearAllBtn.textContent = "Clear everything I've saved on this device";
-    }, 4000);
-    return;
-  }
-  clearTimeout(clearAllTimeout);
-  try {
-    localStorage.removeItem(JOURNAL_KEY);
-    localStorage.removeItem(CANDLE_KEY);
-  } catch {
-    // if storage is blocked, there's nothing saved to clear
-  }
-  renderJournal();
-  renderCandles();
-  clearAllBtn.dataset.confirming = "false";
-  clearAllBtn.textContent = "Cleared.";
-  setTimeout(() => {
-    clearAllBtn.textContent = "Clear everything I've saved on this device";
-  }, 3000);
-});
+clearAllBtn.addEventListener("click", makeConfirmHandler(clearAllBtn, {
+  armedText: "Click again to permanently clear your journal and candles",
+  normalText: CLEAR_ALL_LABEL,
+  timeoutMs: 4000,
+  onConfirm: () => {
+    try {
+      localStorage.removeItem(JOURNAL_KEY);
+      localStorage.removeItem(CANDLE_KEY);
+    } catch {
+      // if storage is blocked, there's nothing saved to clear
+    }
+    renderJournal();
+    renderCandles();
+    clearAllBtn.textContent = "Cleared.";
+    setTimeout(() => {
+      clearAllBtn.textContent = CLEAR_ALL_LABEL;
+    }, 3000);
+  },
+}));
