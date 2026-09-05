@@ -263,7 +263,7 @@ const FEELINGS = {
   Loneliness: "The kind of quiet that isn't peaceful. Being around people and still feeling unreachable. Nothing is wrong with you for feeling it — you're likely just overdue for one honest conversation instead of another round of small talk. This kind of missing has a fix.",
   Grief: "Not just for people who've died. Grief is what's left when anything you loved ends — a version of your life, a plan, a person you used to be. It doesn't move in a straight line, and it doesn't mean you're stuck. It means it mattered.",
   Drifting: "Going through the days without feeling anchored to any of them. Like you're watching your own life from slightly outside it. This one tends to lift the moment something — anything — pulls your attention all the way in again.",
-  "Feeling behind": "The sense that everyone else got a head start. It's a comparison, not a fact — and comparisons are the worst measuring tool for a life that isn't a race. Most people you're measuring yourself against feel behind too.",
+  "Feeling behind": "The sense that everyone else got a head start. It's a comparison, not a fact — and comparisons are the worst measuring tool for a life that isn't a race. Whoever you're comparing yourself to is probably doing the same thing about someone else.",
   Numbness: "When sadness gets so loud for so long that it goes quiet instead. It can look like calm from the outside. It usually means you've been carrying something without a place to put it down — not that you've run out of feelings for good.",
   Longing: "Wanting something you can't quite name, or can name but can't reach right now. It's proof you still want things, which isn't nothing. It's the part of you that hasn't given up.",
   Overwhelm: "When there's no single problem to point at, just too many small ones stacked at once. It's not that you're fragile — it's that a normal amount of weight becomes a lot when there's nowhere to set any of it down for a minute.",
@@ -301,7 +301,7 @@ const SMALL_THINGS = [
   "Stretch your arms above your head and hold it for ten seconds.",
   "Make your bed, even if it's the only thing you do today.",
   "Look at one old photo that makes you feel something good.",
-  "Write down tomorrow's date and one small thing you could do then.",
+  "Pick one small thing you could try tomorrow — nothing has to happen today.",
   "Eat something that isn't out of habit — actually taste it.",
   "Unclench your jaw. Drop your shoulders. Just once."
 ];
