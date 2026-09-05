@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A quiet place for the days that feel too heavy to name.">
+<meta name="theme-color" content="#0e2647">
+<title>Still Here</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <svg class="botanical botanical-hero" viewBox="0 0 300 220" aria-hidden="true" focusable="false">
+      <path d="M20,210 C70,165 95,140 130,110 C160,85 190,60 235,25" fill="none" stroke="rgba(238,242,248,0.14)" stroke-width="2"/>
+      <g fill="rgba(238,242,248,0.16)">
+        <circle cx="130" cy="110" r="11"/>
+        <circle cx="146" cy="99" r="7"/>
+        <circle cx="116" cy="97" r="6"/>
+        <circle cx="190" cy="60" r="10"/>
+        <circle cx="206" cy="49" r="6"/>
+        <circle cx="174" cy="51" r="5"/>
+        <circle cx="235" cy="25" r="9"/>
+        <circle cx="250" cy="17" r="5"/>
+        <circle cx="222" cy="12" r="4"/>
+      </g>
+    </svg>
+    <h1>Still Here</h1>
+    <p class="tagline">For the days that feel too <span class="fragment-anchor">heavy<svg class="fragment-line fragment-line-up" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><path d="M4,66 C20,50 30,38 42,24" fill="none" stroke="rgba(238,242,248,0.3)" stroke-width="1.5"/><circle cx="42" cy="24" r="4" fill="rgba(238,242,248,0.32)"/><circle cx="52" cy="14" r="3" fill="rgba(238,242,248,0.28)"/><circle cx="58" cy="6" r="2" fill="rgba(238,242,248,0.24)"/></svg></span> to name.<br>You don't have to be okay to be <span class="fragment-anchor">here<svg class="fragment-line fragment-line-down" viewBox="0 0 70 70" aria-hidden="true" focusable="false"><path d="M4,4 C20,20 30,32 42,46" fill="none" stroke="rgba(238,242,248,0.3)" stroke-width="1.5"/><circle cx="42" cy="46" r="4" fill="rgba(238,242,248,0.32)"/><circle cx="52" cy="56" r="3" fill="rgba(238,242,248,0.28)"/><circle cx="58" cy="64" r="2" fill="rgba(238,242,248,0.24)"/></svg></span>.</p>
+    <nav class="nav">
+      <a href="#say-it">Say it</a>
+      <a href="#light-one">Light one</a>
+      <a href="#words">Words for it</a>
+      <a href="#small-thing">One small thing</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="say-it" class="section">
+      <h2>Say it</h2>
+      <p class="section-intro">What's sitting on you right now? No one will read this but you — it stays only on this device.</p>
+      <textarea id="journalInput" rows="4" placeholder="Start typing..."></textarea>
+      <button id="saveEntryBtn" class="btn">Save</button>
+      <ul id="journalList" class="journal-list"></ul>
+    </section>
+
+    <section id="light-one" class="section">
+      <h2>Light one</h2>
+      <p class="section-intro">Light a small flame for something you're holding onto — a hope, a person, a version of yourself you're trying to find again.</p>
+      <form id="candleForm" class="candle-form">
+        <input id="candleInput" type="text" maxlength="140" placeholder="What are you lighting this for?">
+        <button type="submit" class="btn">Light it</button>
+      </form>
+      <div id="candleWall" class="candle-wall"></div>
+    </section>
+
+    <section id="words" class="section">
+      <h2>Words for it</h2>
+      <p class="section-intro">Sometimes a feeling is easier to sit with once it has a name.</p>
+      <div id="wordButtons" class="word-buttons"></div>
+      <p id="wordText" class="word-text"></p>
+    </section>
+
+    <section id="small-thing" class="section">
+      <h2>One small thing</h2>
+      <p class="section-intro">Not a to-do list. Just one small, doable thing, if you want it.</p>
+      <button id="smallThingBtn" class="btn">Give me something small</button>
+      <p id="smallThingText" class="word-text"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <svg class="botanical botanical-footer" viewBox="0 0 300 220" aria-hidden="true" focusable="false">
+      <path d="M20,210 C70,165 95,140 130,110 C160,85 190,60 235,25" fill="none" stroke="rgba(238,242,248,0.12)" stroke-width="2"/>
+      <g fill="rgba(238,242,248,0.14)">
+        <circle cx="130" cy="110" r="11"/>
+        <circle cx="146" cy="99" r="7"/>
+        <circle cx="116" cy="97" r="6"/>
+        <circle cx="190" cy="60" r="10"/>
+        <circle cx="206" cy="49" r="6"/>
+        <circle cx="174" cy="51" r="5"/>
+        <circle cx="235" cy="25" r="9"/>
+        <circle cx="250" cy="17" r="5"/>
+        <circle cx="222" cy="12" r="4"/>
+      </g>
+    </svg>
+    <p>If it's more than a heavy day and you want to talk to someone: text or call <strong>988</strong> (US Suicide &amp; Crisis Lifeline — free, anonymous, 24/7), or chat at <a href="https://www.7cups.com" target="_blank" rel="noopener noreferrer">7cups.com</a>.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
