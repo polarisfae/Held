@@ -2,6 +2,7 @@
 const JOURNAL_KEY = "stillhere.journal";
 const journalInput = document.getElementById("journalInput");
 const saveEntryBtn = document.getElementById("saveEntryBtn");
+const exportJournalBtn = document.getElementById("exportJournalBtn");
 const journalList = document.getElementById("journalList");
 
 function loadJournal() {
@@ -47,6 +48,7 @@ function renderJournal() {
       li.appendChild(deleteBtn);
       journalList.appendChild(li);
     });
+  exportJournalBtn.hidden = entries.length === 0;
 }
 
 saveEntryBtn.addEventListener("click", () => {
@@ -57,6 +59,23 @@ saveEntryBtn.addEventListener("click", () => {
   saveJournal(entries);
   journalInput.value = "";
   renderJournal();
+});
+
+exportJournalBtn.addEventListener("click", () => {
+  const entries = loadJournal();
+  if (!entries.length) return;
+  const text = entries
+    .map((entry) => `${new Date(entry.date).toLocaleString()}\n${entry.text}`)
+    .join("\n\n---\n\n");
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "still-here-journal.txt";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 });
 
 renderJournal();

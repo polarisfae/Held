@@ -39,8 +39,12 @@
     <section id="say-it" class="section">
       <h2>Say it</h2>
       <p class="section-intro">What's sitting on you right now? No one will read this but you — it stays only on this device.</p>
+      <label for="journalInput" class="sr-only">What's sitting on you right now?</label>
       <textarea id="journalInput" rows="4" placeholder="Start typing..."></textarea>
-      <button id="saveEntryBtn" class="btn">Save</button>
+      <div class="journal-actions">
+        <button id="saveEntryBtn" class="btn">Save</button>
+        <button id="exportJournalBtn" class="btn btn-quiet" hidden>Download my words</button>
+      </div>
       <ul id="journalList" class="journal-list"></ul>
     </section>
 
@@ -48,6 +52,7 @@
       <h2>Light one</h2>
       <p class="section-intro">Light a small flame for something you're holding onto — a hope, a person, a version of yourself you're trying to find again.</p>
       <form id="candleForm" class="candle-form">
+        <label for="candleInput" class="sr-only">What are you lighting this for?</label>
         <input id="candleInput" type="text" maxlength="140" placeholder="What are you lighting this for?">
         <button type="submit" class="btn">Light it</button>
       </form>
