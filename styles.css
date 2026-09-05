@@ -25,6 +25,7 @@ body {
   background-size: 5px 5px, 100% 100%;
   background-repeat: repeat, no-repeat;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .hero {
@@ -45,6 +46,26 @@ body {
 
 .hero > * {
   position: relative;
+}
+
+.botanical {
+  position: absolute;
+  pointer-events: none;
+}
+
+.botanical-hero {
+  top: -30px;
+  right: -20px;
+  width: 260px;
+  height: auto;
+}
+
+.botanical-footer {
+  bottom: -30px;
+  left: -20px;
+  width: 200px;
+  height: auto;
+  transform: scaleX(-1);
 }
 
 .hero h1 {
@@ -298,12 +319,18 @@ textarea:focus, input[type="text"]:focus {
 }
 
 .footer {
+  position: relative;
+  overflow: hidden;
   text-align: center;
   padding: 2.5rem 1.5rem 3rem;
   color: var(--muted);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 0.82rem;
   border-top: 1px solid var(--border);
+}
+
+.footer p {
+  position: relative;
 }
 
 .footer a {
