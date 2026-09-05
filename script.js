@@ -72,6 +72,7 @@ function renderJournal() {
         const remaining = loadJournal().filter((e) => e.id !== entry.id);
         saveJournal(remaining);
         renderJournal();
+        journalInput.focus();
       });
 
       li.appendChild(dateEl);
@@ -206,6 +207,7 @@ function renderCandles() {
       current.splice(index, 1);
       saveCandles(current);
       renderCandles();
+      candleInput.focus();
     });
 
     noteEl.appendChild(noteText);
