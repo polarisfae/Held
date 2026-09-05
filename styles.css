@@ -325,6 +325,11 @@ textarea:focus, input[type="text"]:focus {
   .candle-form input {
     flex-basis: 100%;
   }
+
+  .crisis-quick-link {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.7rem;
+  }
 }
 
 .journal-list {
