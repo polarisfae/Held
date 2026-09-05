@@ -497,6 +497,27 @@ textarea:focus, input[type="text"]:focus {
   color: var(--flame);
 }
 
+.clear-all-btn {
+  display: block;
+  margin: 1.25rem auto 0;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-decoration: underline;
+  cursor: pointer;
+  max-width: 40ch;
+}
+
+.clear-all-btn:hover {
+  color: var(--flame);
+}
+
+.clear-all-btn[data-confirming="true"] {
+  color: var(--flame);
+}
+
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
