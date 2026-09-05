@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sad — mood-based website recommender</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>How are you feeling?</h1>
+      <p class="subtitle">Pick a mood and get a website worth visiting right now.</p>
+    </header>
+
+    <div class="moods" id="moods"></div>
+
+    <section class="result" id="result" hidden>
+      <p class="result-mood" id="resultMood"></p>
+      <h2 id="siteName"></h2>
+      <p id="siteDescription"></p>
+      <div class="actions">
+        <a id="visitLink" href="#" target="_blank" rel="noopener noreferrer" class="btn primary">Visit site</a>
+        <button id="newOneBtn" class="btn secondary">Give me a new one</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
