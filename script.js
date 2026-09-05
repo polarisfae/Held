@@ -181,11 +181,6 @@ function renderCandles() {
       <line x1="20" y1="28" x2="20" y2="20" stroke="rgba(238,242,248,0.45)" stroke-width="1.5"/>
       <path d="M20,4 C24,10 25,14 20,20 C15,14 16,10 20,4 Z" fill="currentColor"/>
     </svg>`;
-    toggleBtn.addEventListener("click", () => {
-      const isOpen = wrapper.classList.toggle("open");
-      toggleBtn.setAttribute("aria-expanded", String(isOpen));
-    });
-
     const noteEl = document.createElement("div");
     noteEl.className = "candle-note";
     noteEl.id = noteId;
@@ -198,6 +193,14 @@ function renderCandles() {
     letGoBtn.type = "button";
     letGoBtn.className = "let-go-btn";
     letGoBtn.textContent = "let it go";
+    letGoBtn.tabIndex = -1;
+
+    toggleBtn.addEventListener("click", () => {
+      const isOpen = wrapper.classList.toggle("open");
+      toggleBtn.setAttribute("aria-expanded", String(isOpen));
+      letGoBtn.tabIndex = isOpen ? 0 : -1;
+    });
+
     letGoBtn.addEventListener("click", () => {
       const current = loadCandles();
       current.splice(index, 1);
