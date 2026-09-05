@@ -2,7 +2,19 @@
 const JOURNAL_KEY = "stillhere.journal";
 const journalInput = document.getElementById("journalInput");
 const saveEntryBtn = document.getElementById("saveEntryBtn");
+const exportJournalBtn = document.getElementById("exportJournalBtn");
 const journalList = document.getElementById("journalList");
+const saveConfirmation = document.getElementById("saveConfirmation");
+let saveConfirmationTimeout;
+
+function showSaveConfirmation() {
+  clearTimeout(saveConfirmationTimeout);
+  saveConfirmation.textContent = "Saved.";
+  saveConfirmation.classList.add("visible");
+  saveConfirmationTimeout = setTimeout(() => {
+    saveConfirmation.classList.remove("visible");
+  }, 2200);
+}
 
 function loadJournal() {
   try {
@@ -36,7 +48,21 @@ function renderJournal() {
       const deleteBtn = document.createElement("button");
       deleteBtn.className = "delete-btn";
       deleteBtn.textContent = "remove";
+      deleteBtn.setAttribute("aria-label", `Remove entry from ${dateEl.textContent}`);
+      let confirmTimeout;
       deleteBtn.addEventListener("click", () => {
+        if (deleteBtn.dataset.confirming !== "true") {
+          deleteBtn.dataset.confirming = "true";
+          deleteBtn.textContent = "sure?";
+          deleteBtn.setAttribute("aria-label", `Confirm removing entry from ${dateEl.textContent}`);
+          confirmTimeout = setTimeout(() => {
+            deleteBtn.dataset.confirming = "false";
+            deleteBtn.textContent = "remove";
+            deleteBtn.setAttribute("aria-label", `Remove entry from ${dateEl.textContent}`);
+          }, 3000);
+          return;
+        }
+        clearTimeout(confirmTimeout);
         const remaining = loadJournal().filter((e) => e.id !== entry.id);
         saveJournal(remaining);
         renderJournal();
@@ -47,6 +73,7 @@ function renderJournal() {
       li.appendChild(deleteBtn);
       journalList.appendChild(li);
     });
+  exportJournalBtn.hidden = entries.length === 0;
 }
 
 saveEntryBtn.addEventListener("click", () => {
@@ -57,6 +84,24 @@ saveEntryBtn.addEventListener("click", () => {
   saveJournal(entries);
   journalInput.value = "";
   renderJournal();
+  showSaveConfirmation();
+});
+
+exportJournalBtn.addEventListener("click", () => {
+  const entries = loadJournal();
+  if (!entries.length) return;
+  const text = entries
+    .map((entry) => `${new Date(entry.date).toLocaleString()}\n${entry.text}`)
+    .join("\n\n---\n\n");
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "still-here-journal.txt";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 });
 
 renderJournal();
@@ -75,6 +120,15 @@ const STARTER_CANDLES = [
 const candleForm = document.getElementById("candleForm");
 const candleInput = document.getElementById("candleInput");
 const candleWall = document.getElementById("candleWall");
+const candleCharCount = document.getElementById("candleCharCount");
+
+function updateCandleCharCount() {
+  const remaining = candleInput.maxLength - candleInput.value.length;
+  candleCharCount.textContent = `${remaining} characters left`;
+}
+
+candleInput.addEventListener("input", updateCandleCharCount);
+updateCandleCharCount();
 
 function loadCandles() {
   try {
@@ -95,24 +149,51 @@ let candleIdCounter = 0;
 function renderCandles() {
   const candles = loadCandles();
   candleWall.innerHTML = "";
-  candles.forEach((note) => {
+  candles.forEach((note, index) => {
     const noteId = `candle-note-${candleIdCounter++}`;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "candle";
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-controls", noteId);
-    btn.innerHTML = `<svg class="flame" viewBox="0 0 40 60" aria-hidden="true" focusable="false">
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "candle";
+
+    const toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.className = "candle-toggle";
+    toggleBtn.setAttribute("aria-expanded", "false");
+    toggleBtn.setAttribute("aria-controls", noteId);
+    toggleBtn.innerHTML = `<svg class="flame" viewBox="0 0 40 60" aria-hidden="true" focusable="false">
       <rect x="14" y="28" width="12" height="26" rx="3" fill="rgba(238,242,248,0.1)" stroke="rgba(238,242,248,0.45)" stroke-width="1.5"/>
       <line x1="20" y1="28" x2="20" y2="20" stroke="rgba(238,242,248,0.45)" stroke-width="1.5"/>
       <path d="M20,4 C24,10 25,14 20,20 C15,14 16,10 20,4 Z" fill="currentColor"/>
-    </svg><span class="candle-note" id="${noteId}"></span>`;
-    btn.querySelector(".candle-note").textContent = note;
-    btn.addEventListener("click", () => {
-      const isOpen = btn.classList.toggle("open");
-      btn.setAttribute("aria-expanded", String(isOpen));
+    </svg>`;
+    toggleBtn.addEventListener("click", () => {
+      const isOpen = wrapper.classList.toggle("open");
+      toggleBtn.setAttribute("aria-expanded", String(isOpen));
     });
-    candleWall.appendChild(btn);
+
+    const noteEl = document.createElement("div");
+    noteEl.className = "candle-note";
+    noteEl.id = noteId;
+
+    const noteText = document.createElement("p");
+    noteText.className = "candle-note-text";
+    noteText.textContent = note;
+
+    const letGoBtn = document.createElement("button");
+    letGoBtn.type = "button";
+    letGoBtn.className = "let-go-btn";
+    letGoBtn.textContent = "let it go";
+    letGoBtn.addEventListener("click", () => {
+      const current = loadCandles();
+      current.splice(index, 1);
+      saveCandles(current);
+      renderCandles();
+    });
+
+    noteEl.appendChild(noteText);
+    noteEl.appendChild(letGoBtn);
+    wrapper.appendChild(toggleBtn);
+    wrapper.appendChild(noteEl);
+    candleWall.appendChild(wrapper);
   });
 }
 
