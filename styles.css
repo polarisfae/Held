@@ -343,8 +343,12 @@ textarea:focus, input[type="text"]:focus {
 .candle {
   width: 64px;
   text-align: center;
-  cursor: pointer;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.candle-toggle {
+  width: 100%;
+  cursor: pointer;
   background: none;
   border: none;
   color: inherit;
@@ -377,10 +381,37 @@ textarea:focus, input[type="text"]:focus {
   margin-top: 0;
 }
 
+.candle-note-text {
+  margin: 0;
+}
+
+.let-go-btn {
+  display: block;
+  margin: 0.4rem auto 0;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.65rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.let-go-btn:hover {
+  color: var(--flame);
+}
+
 .candle.open .candle-note {
   max-height: 100px;
   opacity: 1;
   margin-top: 0.5rem;
+}
+
+.char-count {
+  margin: 0.5rem 0 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.72rem;
+  color: var(--muted);
 }
 
 .word-buttons {
