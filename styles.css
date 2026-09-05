@@ -319,6 +319,12 @@ textarea:focus, input[type="text"]:focus {
   margin-top: 0;
 }
 
+@media (max-width: 480px) {
+  .candle-form input {
+    flex-basis: 100%;
+  }
+}
+
 .journal-list {
   list-style: none;
   margin: 1.5rem 0 0;
@@ -516,6 +522,15 @@ textarea:focus, input[type="text"]:focus {
 
 .clear-all-btn[data-confirming="true"] {
   color: var(--flame);
+}
+
+.watermark {
+  margin: 2rem 0 0;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--muted);
+  opacity: 0.75;
 }
 
 @keyframes fade-in {

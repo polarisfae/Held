@@ -108,7 +108,7 @@ exportJournalBtn.addEventListener("click", () => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "still-here-journal.txt";
+  link.download = "held-journal.txt";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -260,14 +260,14 @@ renderCandles();
 
 // ---- Words for it ----
 const FEELINGS = {
-  Loneliness: "The kind of quiet that isn't peaceful. Being around people and still feeling unreachable. It doesn't mean something is wrong with you — it usually means you're due for a real conversation, not more small talk. That's a fixable kind of missing.",
+  Loneliness: "The kind of quiet that isn't peaceful. Being around people and still feeling unreachable. Nothing is wrong with you for feeling it — you're likely just overdue for one honest conversation instead of another round of small talk. This kind of missing has a fix.",
   Grief: "Not just for people who've died. Grief is what's left when anything you loved ends — a version of your life, a plan, a person you used to be. It doesn't move in a straight line, and it doesn't mean you're stuck. It means it mattered.",
   Drifting: "Going through the days without feeling anchored to any of them. Like you're watching your own life from slightly outside it. This one tends to lift the moment something — anything — pulls your attention all the way in again.",
   "Feeling behind": "The sense that everyone else got a head start. It's a comparison, not a fact — and comparisons are the worst measuring tool for a life that isn't a race. Most people you're measuring yourself against feel behind too.",
   Numbness: "When sadness gets so loud for so long that it goes quiet instead. It can look like calm from the outside. It usually means you've been carrying something without a place to put it down — not that you've run out of feelings for good.",
-  Longing: "Wanting something you can't quite name, or can name but can't reach right now. It's proof you still want things. That's not nothing — that's the part of you that hasn't given up.",
+  Longing: "Wanting something you can't quite name, or can name but can't reach right now. It's proof you still want things, which isn't nothing. It's the part of you that hasn't given up.",
   Overwhelm: "When there's no single problem to point at, just too many small ones stacked at once. It's not that you're fragile — it's that a normal amount of weight becomes a lot when there's nowhere to set any of it down for a minute.",
-  Emptiness: "The absence of feeling, rather than a feeling itself. It's disorienting because there's nothing to point to. It usually isn't permanent — it's more like a held breath than a closed door.",
+  Emptiness: "The absence of feeling, rather than a feeling itself. It's disorienting because there's nothing to point to. Think of it less as a closed door and more as a held breath — it doesn't stay held forever.",
   Shame: "The belief that the problem isn't what you did, but what you are. It's almost always louder than the truth and quieter than it deserves to be challenged. Most of what shame tells you doesn't survive being said out loud to someone safe.",
   "Losing hope": "When it stops feeling worth it to picture things getting better. That's the feeling talking, not a forecast — hope has a way of returning in small, unannounced amounts, usually before you've decided to let it back in."
 };
