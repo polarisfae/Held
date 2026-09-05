@@ -68,6 +68,29 @@ body {
   transform: scaleX(-1);
 }
 
+.fragment-anchor {
+  position: relative;
+  font-style: normal;
+}
+
+.fragment-line {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.fragment-line-up {
+  bottom: 100%;
+  left: 60%;
+}
+
+.fragment-line-down {
+  top: 100%;
+  right: 60%;
+}
+
 .hero h1 {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 2.1rem;
