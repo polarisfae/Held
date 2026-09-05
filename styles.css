@@ -13,6 +13,11 @@
 
 * { box-sizing: border-box; }
 
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
 html {
   scroll-behavior: smooth;
 }
