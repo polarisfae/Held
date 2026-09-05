@@ -67,7 +67,9 @@ const STARTER_CANDLES = [
   "for the version of you who kept going anyway",
   "for someone learning how to rest",
   "for a morning that doesn't feel this heavy",
-  "for whoever needs to hear it isn't forever"
+  "for whoever needs to hear it isn't forever",
+  "for the small thing that got you through today",
+  "for the you that hasn't shown up yet, but will"
 ];
 
 const candleForm = document.getElementById("candleForm");
@@ -134,7 +136,11 @@ const FEELINGS = {
   Drifting: "Going through the days without feeling anchored to any of them. Like you're watching your own life from slightly outside it. This one tends to lift the moment something — anything — pulls your attention all the way in again.",
   "Feeling behind": "The sense that everyone else got a head start. It's a comparison, not a fact — and comparisons are the worst measuring tool for a life that isn't a race. Most people you're measuring yourself against feel behind too.",
   Numbness: "When sadness gets so loud for so long that it goes quiet instead. It can look like calm from the outside. It usually means you've been carrying something without a place to put it down — not that you've run out of feelings for good.",
-  Longing: "Wanting something you can't quite name, or can name but can't reach right now. It's proof you still want things. That's not nothing — that's the part of you that hasn't given up."
+  Longing: "Wanting something you can't quite name, or can name but can't reach right now. It's proof you still want things. That's not nothing — that's the part of you that hasn't given up.",
+  Overwhelm: "When there's no single problem to point at, just too many small ones stacked at once. It's not that you're fragile — it's that a normal amount of weight becomes a lot when there's nowhere to set any of it down for a minute.",
+  Emptiness: "The absence of feeling, rather than a feeling itself. It's disorienting because there's nothing to point to. It usually isn't permanent — it's more like a held breath than a closed door.",
+  Shame: "The belief that the problem isn't what you did, but what you are. It's almost always louder than the truth and quieter than it deserves to be challenged. Most of what shame tells you doesn't survive being said out loud to someone safe.",
+  "Losing hope": "When it stops feeling worth it to picture things getting better. That's the feeling talking, not a forecast — hope has a way of returning in small, unannounced amounts, usually before you've decided to let it back in."
 };
 
 const wordButtonsEl = document.getElementById("wordButtons");
@@ -162,7 +168,13 @@ const SMALL_THINGS = [
   "Put on the song you'd play if this feeling were a movie scene.",
   "Wash your face with cold water.",
   "Sit down for two minutes and do nothing else.",
-  "Say out loud, to no one, one thing you're tired of carrying."
+  "Say out loud, to no one, one thing you're tired of carrying.",
+  "Stretch your arms above your head and hold it for ten seconds.",
+  "Make your bed, even if it's the only thing you do today.",
+  "Look at one old photo that makes you feel something good.",
+  "Write down tomorrow's date and one small thing you could do then.",
+  "Eat something that isn't out of habit — actually taste it.",
+  "Unclench your jaw. Drop your shoulders. Just once."
 ];
 
 const smallThingBtn = document.getElementById("smallThingBtn");
