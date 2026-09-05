@@ -94,7 +94,11 @@ function renderCandles() {
   candles.forEach((note) => {
     const div = document.createElement("div");
     div.className = "candle";
-    div.innerHTML = `<span class="flame">\u{1F56F}️</span><span class="candle-note"></span>`;
+    div.innerHTML = `<svg class="flame" viewBox="0 0 40 60" aria-hidden="true" focusable="false">
+      <rect x="14" y="28" width="12" height="26" rx="3" fill="rgba(238,242,248,0.1)" stroke="rgba(238,242,248,0.45)" stroke-width="1.5"/>
+      <line x1="20" y1="28" x2="20" y2="20" stroke="rgba(238,242,248,0.45)" stroke-width="1.5"/>
+      <path d="M20,4 C24,10 25,14 20,20 C15,14 16,10 20,4 Z" fill="currentColor"/>
+    </svg><span class="candle-note"></span>`;
     div.querySelector(".candle-note").textContent = note;
     div.addEventListener("click", () => div.classList.toggle("open"));
     candleWall.appendChild(div);

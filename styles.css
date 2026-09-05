@@ -168,6 +168,15 @@ main {
   display: inline-block;
 }
 
+.section h2::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--flame);
+  display: inline-block;
+}
+
 .section-intro {
   color: var(--muted);
   margin: 0 0 1.5rem;
@@ -291,8 +300,11 @@ textarea:focus, input[type="text"]:focus {
 }
 
 .flame {
-  font-size: 1.6rem;
+  width: 34px;
+  height: 51px;
   display: block;
+  margin: 0 auto;
+  color: var(--flame);
   animation: flicker 2.4s infinite ease-in-out;
   filter: drop-shadow(0 0 6px var(--flame-glow));
 }
